@@ -1,0 +1,1 @@
+PREBUILD_COPY_OPTS := $(CURDIR)/testdata
