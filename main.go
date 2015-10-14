@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
 	"crypto/tls"
 	"crypto/x509"
@@ -24,13 +25,17 @@ type ldapEnv struct {
 	uid    string
 }
 
-func (l *ldapEnv) argparse() {
-	h := flag.String("host", l.host, "LDAP server host")
-	p := flag.Int("port", l.port, "LDAP server port")
-	b := flag.String("base", l.base, "search base")
-	f := flag.String("filter", l.filter, "search filter")
-	t := flag.Bool("tls", l.tls, "LDAP connect over TLS")
-	flag.Parse()
+func (l *ldapEnv) argparse(args []string) {
+	if len(args) == 0 {
+		args = os.Args
+	}
+	flags := flag.NewFlagSet(args[0], flag.ExitOnError)
+	h := flags.String("host", l.host, "LDAP server host")
+	p := flags.Int("port", l.port, "LDAP server port")
+	b := flags.String("base", l.base, "search base")
+	f := flags.String("filter", l.filter, "search filter")
+	t := flags.Bool("tls", l.tls, "LDAP connect over TLS")
+	flags.Parse(args[1:])
 
 	if l.host != *h {
 		l.host = *h
@@ -48,16 +53,16 @@ func (l *ldapEnv) argparse() {
 		l.tls = *t
 	}
 
-	if len(flag.Args()) != 1 {
+	if len(flags.Args()) != 1 {
 		log.Fatal("Specify username")
 	}
-	l.uid = flag.Args()[0]
+	l.uid = flags.Args()[0]
 }
 
 func main() {
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	l.argparse()
+	l.argparse([]string{})
 
 	c := &ldap.Conn{}
 	var err error
