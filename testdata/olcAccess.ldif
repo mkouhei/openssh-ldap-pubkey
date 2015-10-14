@@ -1,0 +1,9 @@
+dn: olcDatabase={1}hdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by self write by anonymous auth by dn="cn=admin,dc=example,dc=org" write by * none
+olcAccess: {1}to dn.base="" by * read
+olcAccess: {2}to * by dn="cn=admin,dc=example,dc=org" write by * read
+olcAccess: {3}to dn.subtree="dc=example,dc=org" by self read by * read
+olcAccess: {4}to attrs=sshPublicKey by self write
+olcAccess: {5}to * by * none

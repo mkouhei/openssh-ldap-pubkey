@@ -63,7 +63,7 @@ func TestConnect(t *testing.T) {
 }
 
 func Example_PrintPubkey() {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, ""}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, "user0"}
 	c := l.connect()
 	simpleBind(c)
 	printPubkey(l.search(c))
