@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net"
 	"os"
 
 	"crypto/tls"
@@ -59,6 +60,10 @@ func (l *ldapEnv) argparse(args []string) {
 	l.uid = flags.Args()[0]
 }
 
+func isAddr(host string) bool {
+	return !(net.ParseIP(host).To4() == nil && net.ParseIP(host).To16() == nil)
+}
+
 func main() {
 	l := &ldapEnv{}
 	l.loadNslcdConf()
@@ -72,8 +77,7 @@ func main() {
 			RootCAs: &certs,
 		}
 
-		// ToDo: check FQDN or IP address, set true when IPAddress.
-		if true {
+		if isAddr(l.host) {
 			tlsConfig.InsecureSkipVerify = true
 		}
 

@@ -32,3 +32,24 @@ func TestArgparseNoOptions(t *testing.T) {
 		t.Fatalf("expecting: %v,but %v", lc, l)
 	}
 }
+
+func TestIsAddrWithV4(t *testing.T) {
+	addr := "192.0.2.100"
+	if !isAddr(addr) {
+		t.Fatalf("expecting: %s is true, but false", addr)
+	}
+}
+
+func TestIsAddrWithV6(t *testing.T) {
+	addr := "2001:db8::100"
+	if !isAddr(addr) {
+		t.Fatalf("expecting: %s is true, but false", addr)
+	}
+}
+
+func TestIsAddrWithFQDN(t *testing.T) {
+	host := "ldap.example.org"
+	if isAddr(host) {
+		t.Fatalf("expecting: %s is false, but true", host)
+	}
+}
