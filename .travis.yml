@@ -21,7 +21,7 @@ matrix:
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -y debconf-utils
-  - sudo debconf-set-sellections testdata/debconf.txt
+  - sudo debconf-set-selections testdata/debconf.txt
   - sudo DEBCONF_FRONTEND=noninteractive apt-get -y --force-yes install slapd
   - sudo apt-get install -y ldap-utils ldapvi
   - sudo ldapadd -H ldapi:/// -Y EXTERNAL -f testdata/openssh-lpk.ldif
