@@ -1,0 +1,62 @@
+dn: uid=user0,ou=People,dc=example,dc=org
+cn: user0
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: ldapPublicKey
+loginShell: /bin/bash
+uidNumber: 1000
+gidNumber: 1000
+sn: user0
+homeDirectory: /home/user0
+mail: user0@example.org
+uid: user0
+sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8OldtAiW9lQ0/2VJcc9UpRW9nfcusGXEu2sS+p5kh05zTYWGd8xHgZD0vfoQfpTfSKuHsL6qlMyKQMfsULWQoMJmMhJZc2hU1LH4u9HXYwJxD7EFleGTfxgYw6F6+LWHPVTTyhq+oMgXp/qfE4lc5A0xd2En9Qc172naHD+cRHZxhfNNYEGhW7E6eYm02Gn4fBN8hSpuZzv3WlpRgFiAWGv9CqObdQUEFFnpYLnC2kmaHqz8lzkZ9c3jdJMn2zPYyDAqQ52GI8EKyX9SrbepGJUaa/DmGyEg8nIBu4U74Sigfcl6dsJmA2qlOqSxia21mnQEFiSARB74pakgiywFV user0@workstation
+sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrMQOAP3o58yl96HjEsheDAO/qgQ/mLVJK7DW+VFbJ9dGJpJfB4CBXPoT9bfSn4y6dotqjBA1eDbpDyzrhLkIe1MWZrRjkFbzAtB54ydKSU48URsb+XtGnN6kKKpipolQRvr3CRV7Yu2ELJDq+9Oz1gILK4nc1W/iaORVO/tZRPA0vdQwP0qkUf//neUmXXbSxOSm+ekQvZI9KfJ2tWxe+mVSFt+PcC2P4A/bW9dCNplqZdFTMQxLYFpl5ZOz3fwWcy34Shcb5nSZbjpKZdNrpuUCLwq2FMxorupko8kf4RmvMYO3G6p6OqpoIt6raB8DDJ+v/f6jdgPA31HK0sejX user0@vm01
+userPassword:{SSHA}eKfVPm3raZmYPx5Os+KGKVUPVb6P+766
+description: limited
+
+dn: uid=user1,ou=People,dc=example,dc=org
+cn: user1
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: ldapPublicKey
+loginShell: /bin/bash
+uidNumber: 1001
+gidNumber: 1000
+sn: user1
+homeDirectory: /home/user1
+mail: user1@example.org
+uid: user1
+sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC8OldtAiW9lQ0/2VJcc9UpRW9nfcusGXEu2sS+p5kh05zTYWGd8xHgZD0vfoQfpTfSKuHsL6qlMyKQMfsULWQoMJmMhJZc2hU1LH4u9HXYwJxD7EFleGTfxgYw6F6+LWHPVTTyhq+oMgXp/qfE4lc5A0xd2En9Qc172naHD+cRHZxhfNNYEGhW7E6eYm02Gn4fBN8hSpuZzv3WlpRgFiAWGv9CqObdQUEFFnpYLnC2kmaHqz8lzkZ9c3jdJMn2zPYyDAqQ52GI8EKyX9SrbepGJUaa/DmGyEg8nIBu4U74Sigfcl6dsJmA2qlOqSzia21mnQEFiSARB74pakgiywFV user1@pc
+userPassword:{SSHA}eKfVPm3raZmYPx5Os+KGKVUPVb6P+766
+
+dn: uid=user2,ou=People,dc=example,dc=org
+cn: user2
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: ldapPublicKey
+loginShell: /bin/bash
+uidNumber: 1002
+gidNumber: 1000
+sn: user2
+homeDirectory: /home/user2
+mail: user2@example.org
+uid: user2
+userPassword:{SSHA}eKfVPm3raZmYPx5Os+KGKVUPVb6P+766
+
+dn: uid=user3,ou=People,dc=example,dc=org
+cn: user3
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+loginShell: /bin/bash
+uidNumber: 1003
+gidNumber: 1000
+sn: user3
+homeDirectory: /home/user3
+mail: user3@example.org
+uid: user3
+userPassword:{SSHA}eKfVPm3raZmYPx5Os+KGKVUPVb6P+766
