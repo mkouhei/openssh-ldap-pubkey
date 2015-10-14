@@ -18,7 +18,7 @@ matrix:
       before_install:
         - go get golang.org/x/tools/cmd/cover
         - go get golang.org/x/tools/cmd/goimports
-before_install:
+install:
   - sudo apt-get update -qq
   - sudo apt-get install -y debconf-utils
   - sudo debconf-set-sellections testdata/debconf.txt
@@ -28,7 +28,6 @@ before_install:
   - sudo ldapmodify -H ldapi:/// -Y EXTERNAL -f testdata/rootdnpw.ldif
   - ldapadd -x -h localhost -D cn=admin,dc=example,dc=org -w password -f testdata/ou.ldif
   - ldapadd -x -h localhost -D cn=admin,dc=example,dc=org -w password -f testdata/users.ldif
-install:
   - go get github.com/mattn/goveralls
   - go get -d -v ./...
 script:
