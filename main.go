@@ -64,42 +64,40 @@ func isAddr(host string) bool {
 	return !(net.ParseIP(host).To4() == nil && net.ParseIP(host).To16() == nil)
 }
 
-func main() {
-	l := &ldapEnv{}
-	l.loadNslcdConf()
-	l.argparse([]string{})
-
-	c := &ldap.Conn{}
-	var err error
-	if l.tls {
-		certs := *x509.NewCertPool()
-		tlsConfig := &tls.Config{
-			RootCAs: &certs,
-		}
-
-		if isAddr(l.host) {
-			tlsConfig.InsecureSkipVerify = true
-		}
-
-		c, err = ldap.DialTLS("tcp", fmt.Sprintf("%s:%d", l.host, l.port), tlsConfig)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer c.Close()
-	} else {
-		c, err = ldap.Dial("tcp", fmt.Sprintf("%s:%d", l.host, l.port))
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer c.Close()
-	}
-
-	bindRequest := ldap.NewSimpleBindRequest("", "", nil)
-	_, err = c.SimpleBind(bindRequest)
+func (l *ldapEnv) connect() *ldap.Conn {
+	c, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", l.host, l.port))
 	if err != nil {
 		log.Fatal(err)
 	}
+	return c
+}
 
+func (l *ldapEnv) connectTLS() *ldap.Conn {
+	certs := *x509.NewCertPool()
+	tlsConfig := &tls.Config{
+		RootCAs: &certs,
+	}
+
+	if isAddr(l.host) {
+		tlsConfig.InsecureSkipVerify = true
+	}
+
+	c, err := ldap.DialTLS("tcp", fmt.Sprintf("%s:%d", l.host, l.port), tlsConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c
+}
+
+func simpleBind(c *ldap.Conn) {
+	bindRequest := ldap.NewSimpleBindRequest("", "", nil)
+	_, err := c.SimpleBind(bindRequest)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (l *ldapEnv) search(c *ldap.Conn) []*ldap.Entry {
 	searchRequest := ldap.NewSearchRequest(
 		l.base, ldap.ScopeWholeSubtree, ldap.NeverDerefAliases,
 		0, 0, false,
@@ -108,14 +106,35 @@ func main() {
 	if err != nil {
 		log.Fatal(err, sshPublicKeyName)
 	}
-	if len(sr.Entries) != 1 {
+	return sr.Entries
+}
+
+func printPubkey(entries []*ldap.Entry) {
+	if len(entries) != 1 {
 		log.Fatal("User does not exist or too many entries returned")
 	}
 
-	if len(sr.Entries[0].GetAttributeValues("sshPublicKey")) == 0 {
+	if len(entries[0].GetAttributeValues("sshPublicKey")) == 0 {
 		log.Fatal("User does not use ldapPublicKey.")
 	}
-	for _, pubkey := range sr.Entries[0].GetAttributeValues("sshPublicKey") {
+	for _, pubkey := range entries[0].GetAttributeValues("sshPublicKey") {
 		fmt.Println(pubkey)
 	}
+}
+
+func main() {
+	l := &ldapEnv{}
+	l.loadNslcdConf()
+	l.argparse([]string{})
+
+	c := &ldap.Conn{}
+	if l.tls {
+		c = l.connectTLS()
+	} else {
+		c = l.connect()
+	}
+	defer c.Close()
+
+	simpleBind(c)
+	printPubkey(l.search(c))
 }
