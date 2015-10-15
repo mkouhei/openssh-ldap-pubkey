@@ -58,6 +58,20 @@ func TestLoadNslcdConfWithTLS(t *testing.T) {
 	}
 }
 
+func TestLoadNslcdConfWithTLSSkipInsecureVerify(t *testing.T) {
+	conf, err := filepath.Abs("testdata/nslcd-tls-skip.conf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	os.Setenv("NSLCD_CONF", conf)
+	l := &ldapEnv{}
+	l.loadNslcdConf()
+	lc := &ldapEnv{"192.0.2.100", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, ""}
+	if *lc != *l {
+		t.Fatal("Failed to load default configuration.")
+	}
+}
+
 func TestLoadNslcdConfWithPort(t *testing.T) {
 	conf, err := filepath.Abs("testdata/nslcd-tls-port.conf")
 	if err != nil {
