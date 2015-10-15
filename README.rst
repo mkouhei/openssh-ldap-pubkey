@@ -21,19 +21,20 @@ Requirements
 LDAP server
 -----------
 
-* ldapPublicKey class.
-* sshPublicKey attribute.
-
+* Add `openssh-lpk schema <https://openssh-lpk.googlecode.com/svn/trunk/schemas/openssh-lpk_openldap.schema>`_.
+* Add an objectClass ldapPublicKey to user entry.
+* Add one or more sshPublicKey attribute to user entry.
 
 OpenSSH server
 --------------
 
 * OpenSSH over 6.2.
 * Installing this utility.
-
-
+* Setup ``AuthorozedKeysCommand`` and ``AuthorizedKeysCommandUser`` in ``sshd_config``.
 
 See also
 ========
 
 * `OpenSSH 6.2 release <http://www.openssh.com/txt/release-6.2>`_
+* `openssh-lpk <https://code.google.com/p/openssh-lpk/wiki/Main>`_
+
