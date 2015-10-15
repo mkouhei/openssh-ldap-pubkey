@@ -31,6 +31,7 @@ func (l *ldapEnv) loadNslcdConf() {
 		l.base = "dc=example,dc=org"
 		l.filter = defaultFilter
 		l.tls = false
+		l.skip = false
 	}
 	for _, s := range strings.Split(string(b), "\n") {
 		v := strings.Split(s, " ")
@@ -57,6 +58,9 @@ func (l *ldapEnv) loadNslcdConf() {
 				l.host = u.Host
 				if l.tls {
 					l.port = 686
+					if isAddr(l.host) {
+						l.skip = true
+					}
 				} else {
 					l.port = 389
 				}

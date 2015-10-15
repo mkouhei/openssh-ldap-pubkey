@@ -23,6 +23,7 @@ type ldapEnv struct {
 	base   string
 	filter string
 	tls    bool
+	skip   bool
 	uid    string
 }
 
@@ -36,6 +37,7 @@ func (l *ldapEnv) argparse(args []string) {
 	b := flags.String("base", l.base, "search base")
 	f := flags.String("filter", l.filter, "search filter")
 	t := flags.Bool("tls", l.tls, "LDAP connect over TLS")
+	s := flags.Bool("skip", false, "Insecure skip verify")
 	flags.Parse(args[1:])
 
 	if l.host != *h {
@@ -52,6 +54,9 @@ func (l *ldapEnv) argparse(args []string) {
 	}
 	if l.tls != *t {
 		l.tls = *t
+	}
+	if l.skip != *s {
+		l.skip = *s
 	}
 
 	if len(flags.Args()) != 1 {
@@ -78,7 +83,7 @@ func (l *ldapEnv) connectTLS() *ldap.Conn {
 		RootCAs: &certs,
 	}
 
-	if isAddr(l.host) {
+	if isAddr(l.host) || l.skip {
 		tlsConfig.InsecureSkipVerify = true
 	}
 

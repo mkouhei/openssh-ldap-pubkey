@@ -7,9 +7,9 @@ import (
 )
 
 func TestArgparse(t *testing.T) {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, ""}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
 	f := "(&(objectClass=posixAccount)(uid=%s)(description=limited))"
-	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, true, "user0"}
+	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, true, false, "user0"}
 	os.Args = append(os.Args, "-host=ldap.example.org")
 	os.Args = append(os.Args, "-port=9999")
 	os.Args = append(os.Args, "-base=ou=People,dc=example,dc=org")
@@ -24,8 +24,8 @@ func TestArgparse(t *testing.T) {
 }
 
 func TestArgparseNoOptions(t *testing.T) {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, ""}
-	lc := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, "user1"}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
+	lc := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user1"}
 	os.Args = append(os.Args, "user1")
 	l.argparse(os.Args[4:])
 	if *l != *lc {
@@ -55,7 +55,7 @@ func TestIsAddrWithFQDN(t *testing.T) {
 }
 
 func TestConnect(t *testing.T) {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, ""}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
 	c := l.connect()
 	if c == nil {
 		t.Fatal("Connect error")
@@ -63,7 +63,7 @@ func TestConnect(t *testing.T) {
 }
 
 func Example_PrintPubkey() {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, "user0"}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user0"}
 	c := l.connect()
 	simpleBind(c)
 	printPubkey(l.search(c))
