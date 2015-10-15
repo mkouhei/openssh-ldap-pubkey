@@ -1,0 +1,25 @@
+#!/bin/sh -e
+url="https://openssh-lpk.googlecode.com/svn/trunk/schemas/openssh-lpk_openldap.schema"
+curl $url | sed "
+1i\dn: cn=openssh-lpk,cn=schema,cn=config\nobjectClass: olcSchemaConfig\ncn: openssh-lpk
+/^#/d
+/^$/d
+:a
+/ $/N
+/ $/b a
+s/\n//g
+s/\t//g
+/octetStringMatch$/N
+s/\n/ /
+/AUXILIARY$/N
+s/\n/ /
+/objectclass'$/N
+s/\n//
+s/^attributetype (/olcAttributeTypes: {0}(/
+s/^objectclass (/olcObjectClasses: {0}(/
+:b
+/ $/N
+/ $/b b
+s/\n//g
+s/\t//g
+"
