@@ -90,8 +90,23 @@ func isAddr(host string) bool {
 	return !(net.ParseIP(host).To4() == nil && net.ParseIP(host).To16() == nil)
 }
 
+func (l *ldapEnv) getAddr() string {
+	addrs, err := net.LookupHost(l.host)
+	if err != nil {
+		return l.host
+	}
+	if net.ParseIP(addrs[0]).To16() != nil {
+		return fmt.Sprintf("[%s]", addrs[0])
+	}
+	return addrs[0]
+}
+
 func (l *ldapEnv) connect() (*ldap.Conn, error) {
-	return ldap.Dial("tcp", fmt.Sprintf("%s:%d", l.host, l.port))
+	host := l.host
+	if !isAddr(host) {
+		host = l.getAddr()
+	}
+	return ldap.Dial("tcp", fmt.Sprintf("%s:%d", host, l.port))
 }
 
 func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
@@ -103,8 +118,12 @@ func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
 	if isAddr(l.host) || l.skip {
 		tlsConfig.InsecureSkipVerify = true
 	}
-
-	return ldap.DialTLS("tcp", fmt.Sprintf("%s:%d", l.host, l.port), tlsConfig)
+	host := l.host
+	if !isAddr(l.host) {
+		tlsConfig.ServerName = l.host
+		host = l.getAddr()
+	}
+	return ldap.DialTLS("tcp", fmt.Sprintf("%s:%d", host, l.port), tlsConfig)
 }
 
 func logging(err error) {
