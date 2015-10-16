@@ -15,6 +15,7 @@ import (
 )
 
 const (
+	version          = "0.1.0"
 	sshPublicKeyName = "sshPublicKey"
 )
 
@@ -28,7 +29,20 @@ type ldapEnv struct {
 	uid    string
 }
 
-func (l *ldapEnv) argparse(args []string) error {
+var (
+	ver           string
+	showedVersion = errors.New("show version")
+
+	license = `openssh-ldap-pubkey %s
+
+Copyright (C) 2015 Kouhei Maeda
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software, and you are welcome to redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+`
+)
+
+func (l *ldapEnv) argparse(args []string, ver string) error {
 	if len(args) == 0 {
 		args = os.Args
 	}
@@ -39,8 +53,13 @@ func (l *ldapEnv) argparse(args []string) error {
 	f := flags.String("filter", l.filter, "search filter")
 	t := flags.Bool("tls", l.tls, "LDAP connect over TLS")
 	s := flags.Bool("skip", l.skip, "Insecure skip verify")
+	v := flags.Bool("version", false, "show version")
 	flags.Parse(args[1:])
 
+	if *v {
+		fmt.Printf(license, ver)
+		return showedVersion
+	}
 	if l.host != *h {
 		l.host = *h
 	}
@@ -89,7 +108,9 @@ func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
 }
 
 func logging(err error) {
-	if err != nil {
+	if err == showedVersion {
+		os.Exit(0)
+	} else if err != nil {
 		log.Fatal(err)
 	}
 }
@@ -128,8 +149,10 @@ func main() {
 	l.loadNslcdConf()
 	var err error
 	var entries []*ldap.Entry
-	logging(l.argparse([]string{}))
-
+	if ver == "" {
+		ver = version
+	}
+	logging(l.argparse([]string{}, ver))
 	c := &ldap.Conn{}
 	if l.tls {
 		c, err = l.connectTLS()

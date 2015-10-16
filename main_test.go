@@ -16,7 +16,7 @@ func TestArgparse(t *testing.T) {
 	os.Args = append(os.Args, fmt.Sprintf("-filter=%s", f))
 	os.Args = append(os.Args, "-tls=true")
 	os.Args = append(os.Args, "user0")
-	l.argparse(os.Args[4:])
+	l.argparse(os.Args[4:], version)
 	if *l != *lc {
 		t.Fatalf("expecting: %v,but %v", lc, l)
 	}
@@ -34,7 +34,7 @@ func TestArgparseTLS(t *testing.T) {
 	os.Args = append(os.Args, "-tls=true")
 	os.Args = append(os.Args, "-skip=true")
 	os.Args = append(os.Args, "user0")
-	l.argparse(os.Args[4:])
+	l.argparse(os.Args[4:], version)
 	if *l != *lc {
 		t.Fatalf("expecting: %v,but %v", lc, l)
 	}
@@ -45,7 +45,7 @@ func TestArgparseNoOptions(t *testing.T) {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
 	lc := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user1"}
 	os.Args = append(os.Args, "user1")
-	l.argparse(os.Args[4:])
+	l.argparse(os.Args[4:], version)
 	if *l != *lc {
 		t.Fatalf("expecting: %v,but %v", lc, l)
 	}
@@ -54,7 +54,7 @@ func TestArgparseNoOptions(t *testing.T) {
 
 func TestArgparseNoArg(t *testing.T) {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
-	if err := l.argparse(os.Args[4:]); err == nil {
+	if err := l.argparse(os.Args[4:], version); err == nil {
 		t.Fatal("expecting: error without user argument.")
 	}
 }
@@ -141,4 +141,18 @@ func Example_PrintPubkeyDoesNotExistUser() {
 	printPubkey(entries)
 	// Output:
 	//
+}
+
+func Example_ShowVersion() {
+	l := &ldapEnv{}
+	os.Args = append(os.Args, "-version")
+	ver = "X.X.X"
+	l.argparse(os.Args[4:], ver)
+	// Output:
+	// openssh-ldap-pubkey X.X.X
+	//
+	// Copyright (C) 2015 Kouhei Maeda
+	// License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+	// This is free software, and you are welcome to redistribute it.
+	// There is NO WARRANTY, to the extent permitted by law.
 }
