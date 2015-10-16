@@ -28,7 +28,7 @@ install:
   - sudo ldapmodify -H ldapi:/// -Y EXTERNAL -f testdata/rootdnpw.ldif
   - sudo sed -i 's;SLAPD_SERVICES="ldap:/// ldapi:///";SLAPD_SERVICES="ldap:/// ldaps:/// ldapi:///";' /etc/default/slapd
   - sudo cp -f testdata/ssl-cert-snakeoil.key /etc/ldap/ssl-cert-snakeoil.key
-  - sudo cp -f testdata/ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-cert-snakeoil.pem
+  - sudo cp -f testdata/ssl-cert-snakeoil.pem /etc/ldap/ssl-cert-snakeoil.pem
   - sudo chown openldap: /etc/ldap/ssl-cert-snakeoil.key
   - sudo ldapmodify -H ldapi:/// -Y EXTERNAL -f testdata/olcTLSCertificate.ldif
   - sudo service slapd restart
