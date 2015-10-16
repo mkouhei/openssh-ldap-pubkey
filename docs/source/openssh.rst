@@ -53,7 +53,12 @@ The parameters are follows.
        | (&(objectClass=posixAccount)(uid=$username))
      - | ``filter``
        | (&(objectClass=posixAccount)(uid=%s))
-
+   * - | ``tls_reqcert``
+       | never, allow
+       | try, demand, hard
+     - | ``skip``
+       | true
+       | false
 
 1. Download binary.
 
