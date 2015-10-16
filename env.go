@@ -1,12 +1,12 @@
 package main
 
 import (
-	"io/ioutil"
-	"log"
-	"net/url"
 	"os"
 	"strconv"
 	"strings"
+
+	"io/ioutil"
+	"net/url"
 )
 
 const (
@@ -22,7 +22,7 @@ func getNslcdConfPath() string {
 	return conf
 }
 
-func (l *ldapEnv) loadNslcdConf() {
+func (l *ldapEnv) loadNslcdConf() error {
 	conf := getNslcdConfPath()
 	b, err := ioutil.ReadFile(conf)
 	if err != nil {
@@ -39,7 +39,7 @@ func (l *ldapEnv) loadNslcdConf() {
 		case v[0] == "uri":
 			u, err := url.Parse(v[1])
 			if err != nil {
-				log.Fatal(err)
+				return err
 			}
 			if u.Scheme == "ldaps" {
 				l.tls = true
@@ -51,7 +51,7 @@ func (l *ldapEnv) loadNslcdConf() {
 				l.host = h[0]
 				p, err := strconv.Atoi(h[1])
 				if err != nil {
-					log.Fatal(err)
+					return err
 				}
 				l.port = p
 			} else {
@@ -83,4 +83,5 @@ func (l *ldapEnv) loadNslcdConf() {
 			}
 		}
 	}
+	return nil
 }

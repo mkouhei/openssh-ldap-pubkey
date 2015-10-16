@@ -2,8 +2,9 @@ package main
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
+
+	"path/filepath"
 )
 
 func TestGetNslcdConfPath(t *testing.T) {
@@ -151,7 +152,21 @@ func TestLoadNslcdConfInvalidURL(t *testing.T) {
 	l := &ldapEnv{}
 	l.loadNslcdConf()
 	lc := &ldapEnv{"", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
-	if *lc != *l {
-		t.Fatal("Failed to load default configuration.")
+	if *lc == *l {
+		t.Fatal("Failed to parse url.")
+	}
+}
+
+func TestLoadNslcdConfInvalidPort(t *testing.T) {
+	conf, err := filepath.Abs("testdata/nslcd-invalid-port.conf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	os.Setenv("NSLCD_CONF", conf)
+	l := &ldapEnv{}
+	l.loadNslcdConf()
+	lc := &ldapEnv{"", 389, "dc=example,dc=org", defaultFilter, false, false, ""}
+	if *lc == *l {
+		t.Fatal("Failed to validate port syntax.")
 	}
 }
