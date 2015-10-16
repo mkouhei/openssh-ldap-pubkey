@@ -73,6 +73,10 @@ func (l *ldapEnv) loadNslcdConf() {
 			} else {
 				l.filter = v[1]
 			}
+		case v[0] == "tls_reqcert":
+			if v[1] == "never" || v[1] == "allow" {
+				l.skip = true
+			}
 		default:
 			if l.filter == "" {
 				l.filter = defaultFilter
