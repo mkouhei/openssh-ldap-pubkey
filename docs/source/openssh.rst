@@ -13,6 +13,7 @@ This article restricts OpenSSH 6.2 over on Debian systems only.
 Requirements
 ============
 
+* Debian Jessie later or Ubuntu Trusty later.
 * OpenSSH 6.2 over
 * openssh-ldap-pubkey
 * Go 1.2 over
