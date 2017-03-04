@@ -30,8 +30,8 @@ type ldapEnv struct {
 }
 
 var (
-	ver           string
-	showedVersion = errors.New("show version")
+	ver        string
+	errVersion = errors.New("show version")
 
 	license = `openssh-ldap-pubkey %s
 
@@ -58,7 +58,7 @@ func (l *ldapEnv) argparse(args []string, ver string) error {
 
 	if *v {
 		fmt.Printf(license, ver)
-		return showedVersion
+		return errVersion
 	}
 	if l.host != *h {
 		l.host = *h
@@ -127,7 +127,7 @@ func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
 }
 
 func logging(err error) {
-	if err == showedVersion {
+	if err == errVersion {
 		os.Exit(0)
 	} else if err != nil {
 		log.Fatal(err)
@@ -155,7 +155,7 @@ func printPubkey(entries []*ldap.Entry) error {
 	}
 
 	if len(entries[0].GetAttributeValues("sshPublicKey")) == 0 {
-		return errors.New("User does not use ldapPublicKey.")
+		return errors.New("User does not use ldapPublicKey")
 	}
 	for _, pubkey := range entries[0].GetAttributeValues("sshPublicKey") {
 		fmt.Println(pubkey)

@@ -101,7 +101,7 @@ func TestConnectTLS(t *testing.T) {
 	}
 }
 
-func Example_PrintPubkey() {
+func PrintPubkey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user0"}
 	c, _ := l.connect()
 	simpleBind(c)
@@ -112,7 +112,7 @@ func Example_PrintPubkey() {
 	// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrMQOAP3o58yl96HjEsheDAO/qgQ/mLVJK7DW+VFbJ9dGJpJfB4CBXPoT9bfSn4y6dotqjBA1eDbpDyzrhLkIe1MWZrRjkFbzAtB54ydKSU48URsb+XtGnN6kKKpipolQRvr3CRV7Yu2ELJDq+9Oz1gILK4nc1W/iaORVO/tZRPA0vdQwP0qkUf//neUmXXbSxOSm+ekQvZI9KfJ2tWxe+mVSFt+PcC2P4A/bW9dCNplqZdFTMQxLYFpl5ZOz3fwWcy34Shcb5nSZbjpKZdNrpuUCLwq2FMxorupko8kf4RmvMYO3G6p6OqpoIt6raB8DDJ+v/f6jdgPA31HK0sejX user0@vm01
 }
 
-func Example_PrintPubkeyTLS() {
+func PrintPubkeyTLS() {
 	l := &ldapEnv{"localhost", 636, "dc=example,dc=org", defaultFilter, true, true, "user0"}
 	c, _ := l.connectTLS()
 	simpleBind(c)
@@ -123,7 +123,7 @@ func Example_PrintPubkeyTLS() {
 	// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrMQOAP3o58yl96HjEsheDAO/qgQ/mLVJK7DW+VFbJ9dGJpJfB4CBXPoT9bfSn4y6dotqjBA1eDbpDyzrhLkIe1MWZrRjkFbzAtB54ydKSU48URsb+XtGnN6kKKpipolQRvr3CRV7Yu2ELJDq+9Oz1gILK4nc1W/iaORVO/tZRPA0vdQwP0qkUf//neUmXXbSxOSm+ekQvZI9KfJ2tWxe+mVSFt+PcC2P4A/bW9dCNplqZdFTMQxLYFpl5ZOz3fwWcy34Shcb5nSZbjpKZdNrpuUCLwq2FMxorupko8kf4RmvMYO3G6p6OqpoIt6raB8DDJ+v/f6jdgPA31HK0sejX user0@vm01
 }
 
-func Example_PrintPubkeyDoesNotUseSSHPublicKey() {
+func PrintPubkeyDoesNotUseSSHPublicKey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user2"}
 	c, _ := l.connect()
 	simpleBind(c)
@@ -133,7 +133,7 @@ func Example_PrintPubkeyDoesNotUseSSHPublicKey() {
 	//
 }
 
-func Example_PrintPubkeyDoesNotExistUser() {
+func PrintPubkeyDoesNotExistUser() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, "user5"}
 	c, _ := l.connect()
 	simpleBind(c)
@@ -143,7 +143,7 @@ func Example_PrintPubkeyDoesNotExistUser() {
 	//
 }
 
-func Example_ShowVersion() {
+func ShowVersion() {
 	l := &ldapEnv{}
 	os.Args = append(os.Args, "-version")
 	ver = "X.X.X"
