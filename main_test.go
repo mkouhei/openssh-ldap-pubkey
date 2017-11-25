@@ -7,54 +7,55 @@ import (
 )
 
 func TestArgparse(t *testing.T) {
-	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, ""}
 	f := "(&(objectClass=posixAccount)(uid=%s)(description=limited))"
-	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, true, false, false, "user0"}
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, ""}
+	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, false, false, false, "user0"}
+	os.Args = []string{"test_command"}
 	os.Args = append(os.Args, "-host=ldap.example.org")
 	os.Args = append(os.Args, "-port=9999")
 	os.Args = append(os.Args, "-base=ou=People,dc=example,dc=org")
 	os.Args = append(os.Args, fmt.Sprintf("-filter=%s", f))
-	os.Args = append(os.Args, "-tls=true")
+	os.Args = append(os.Args, "-tls=false")
 	os.Args = append(os.Args, "user0")
-	l.argparse(os.Args[4:], version)
+	l.argparse(os.Args, version)
 	if *l != *lc {
-		t.Fatalf("expecting: %v,but %v", lc, l)
+		t.Fatalf("expecting:\n%v,\nbut:\n%v", lc, l)
 	}
-	os.Args = os.Args[:5]
 }
 
 func TestArgparseTLS(t *testing.T) {
-	l := &ldapEnv{"localhost", 636, "dc=example,dc=org", defaultFilter, true, false, false, ""}
 	f := "(&(objectClass=posixAccount)(uid=%s)(description=limited))"
-	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, true, true, false, "user0"}
+	l := &ldapEnv{"localhost", 636, "dc=example,dc=org", defaultFilter, false, false, false, ""}
+	lc := &ldapEnv{"ldap.example.org", 9999, "ou=People,dc=example,dc=org", f, true, false, false, "user0"}
+	os.Args = []string{"test_command"}
 	os.Args = append(os.Args, "-host=ldap.example.org")
 	os.Args = append(os.Args, "-port=9999")
 	os.Args = append(os.Args, "-base=ou=People,dc=example,dc=org")
 	os.Args = append(os.Args, fmt.Sprintf("-filter=%s", f))
 	os.Args = append(os.Args, "-tls=true")
-	os.Args = append(os.Args, "-skip=true")
+	os.Args = append(os.Args, "-skip=false")
 	os.Args = append(os.Args, "user0")
-	l.argparse(os.Args[4:], version)
+	l.argparse(os.Args, version)
 	if *l != *lc {
-		t.Fatalf("expecting: %v,but %v", lc, l)
+		t.Fatalf("expecting:\n%v,\nbut:\n%v", lc, l)
 	}
-	os.Args = os.Args[:5]
 }
 
 func TestArgparseNoOptions(t *testing.T) {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, ""}
 	lc := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1"}
+	os.Args = []string{"test_command"}
 	os.Args = append(os.Args, "user1")
-	l.argparse(os.Args[4:], version)
+	l.argparse(os.Args, version)
 	if *l != *lc {
-		t.Fatalf("expecting: %v,but %v", lc, l)
+		t.Fatalf("expecting:\n%v,\nbut:\n%v", lc, l)
 	}
-	os.Args = os.Args[:5]
 }
 
 func TestArgparseNoArg(t *testing.T) {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, ""}
-	if err := l.argparse(os.Args[4:], version); err == nil {
+	os.Args = []string{"test_command"}
+	if err := l.argparse(os.Args, version); err == nil {
 		t.Fatal("expecting: error without user argument.")
 	}
 }
