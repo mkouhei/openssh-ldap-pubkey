@@ -26,6 +26,7 @@ type ldapEnv struct {
 	filter string
 	tls    bool
 	skip   bool
+	debug  bool
 	uid    string
 }
 
@@ -54,6 +55,7 @@ func (l *ldapEnv) argparse(args []string, ver string) error {
 	t := flags.Bool("tls", l.tls, "LDAP connect over TLS")
 	s := flags.Bool("skip", l.skip, "Insecure skip verify")
 	v := flags.Bool("version", false, "show version")
+	d := flags.Bool("debug", false, "debug mode")
 	flags.Parse(args[1:])
 
 	if *v {
@@ -77,6 +79,9 @@ func (l *ldapEnv) argparse(args []string, ver string) error {
 	}
 	if l.skip != *s {
 		l.skip = *s
+	}
+	if l.debug != *d {
+		l.debug = *d
 	}
 
 	if len(flags.Args()) != 1 {
@@ -173,6 +178,15 @@ func main() {
 	}
 	logging(l.argparse([]string{}, ver))
 	c := &ldap.Conn{}
+	if l.debug {
+		log.Printf("[debug] host  : %s\n", l.host)
+		log.Printf("[debug] port  : %d\n", l.port)
+		log.Printf("[debug] tls	  : %v\n", l.tls)
+		log.Printf("[debug] base  : %s\n", l.base)
+		log.Printf("[debug] skip  : %v\n", l.skip)
+		log.Printf("[debug] filter: %s\n", l.filter)
+		log.Printf("[debug] uid	  : %s\n", l.uid)
+	}
 	if l.tls {
 		c, err = l.connectTLS()
 		logging(err)
