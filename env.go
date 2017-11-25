@@ -32,6 +32,7 @@ func (l *ldapEnv) loadNslcdConf() error {
 		l.filter = defaultFilter
 		l.tls = false
 		l.skip = false
+		l.debug = false
 	}
 	for _, s := range strings.Split(string(b), "\n") {
 		v := strings.Split(s, " ")
