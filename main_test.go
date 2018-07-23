@@ -102,10 +102,26 @@ func TestConnectTLS(t *testing.T) {
 	}
 }
 
+func TestBind(t *testing.T) {
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "", "cn=admin,dc=example,dc=org", "password"}
+	c, _ := l.connect()
+	if err := simpleBind(c, l); err != nil {
+		t.Fatal("Bind error")
+	}
+}
+
+func TestBindFail(t *testing.T) {
+	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "", "cn=admin,dc=example,dc=org", ""}
+	c, _ := l.connect()
+	if err := simpleBind(c, l); err == nil {
+		t.Fatal("Bind error")
+	}
+}
+
 func PrintPubkey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user0", "", ""}
 	c, _ := l.connect()
-	simpleBind(c)
+	simpleBind(c, l)
 	entries, _ := l.search(c)
 	printPubkey(entries)
 	// Output:
@@ -116,7 +132,7 @@ func PrintPubkey() {
 func PrintPubkeyTLS() {
 	l := &ldapEnv{"localhost", 636, "dc=example,dc=org", defaultFilter, true, true, false, "user0", "", ""}
 	c, _ := l.connectTLS()
-	simpleBind(c)
+	simpleBind(c, l)
 	entries, _ := l.search(c)
 	printPubkey(entries)
 	// Output:
@@ -127,7 +143,7 @@ func PrintPubkeyTLS() {
 func PrintPubkeyDoesNotUseSSHPublicKey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user2", "", ""}
 	c, _ := l.connect()
-	simpleBind(c)
+	simpleBind(c, l)
 	entries, _ := l.search(c)
 	printPubkey(entries)
 	// Output:
@@ -137,7 +153,7 @@ func PrintPubkeyDoesNotUseSSHPublicKey() {
 func PrintPubkeyDoesNotExistUser() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user5", "", ""}
 	c, _ := l.connect()
-	simpleBind(c)
+	simpleBind(c, l)
 	entries, _ := l.search(c)
 	printPubkey(entries)
 	// Output:
