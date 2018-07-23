@@ -28,6 +28,8 @@ type ldapEnv struct {
 	skip   bool
 	debug  bool
 	uid    string
+	binddn string
+	bindpw string
 }
 
 var (
