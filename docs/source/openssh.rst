@@ -60,6 +60,12 @@ The parameters are follows.
      - | ``skip``
        | true
        | false
+   * - | ``binddn`` (option for bind)
+       | cn=admin,dc=example,dc=org
+     - | n/a
+   * - | ``bindpw`` (option for bind)
+       | examplepassword
+     - | n/a
 
 1. Download binary.
 
