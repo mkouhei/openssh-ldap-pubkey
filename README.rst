@@ -11,7 +11,7 @@ Status
 .. image:: https://coveralls.io/repos/mkouhei/openssh-ldap-pubkey/badge.svg?branch=master&service=github
    :target: https://coveralls.io/github/mkouhei/openssh-ldap-pubkey?branch=master
 .. image:: https://readthedocs.org/projects/openssh-ldap-pubkey/badge/?version=latest
-   :target: http://openssh-ldap-pubkey.readthedocs.org/en/latest/?badge=latest
+   :target: https://openssh-ldap-pubkey.readthedocs.org/en/latest/?badge=latest
    :alt: Documentation Status
 
 
@@ -21,7 +21,7 @@ Requirements
 LDAP server
 -----------
 
-* Add `openssh-lpk schema <https://openssh-lpk.googlecode.com/svn/trunk/schemas/openssh-lpk_openldap.schema>`_.
+* Add `openssh-lpk schema <https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openssh-lpk/openssh-lpk_openldap.schema>`_.
 * Add an objectClass ldapPublicKey to user entry.
 * Add one or more sshPublicKey attribute to user entry.
 
@@ -35,6 +35,6 @@ OpenSSH server
 See also
 ========
 
-* `OpenSSH 6.2 release <http://www.openssh.com/txt/release-6.2>`_
+* `OpenSSH 6.2 release <https://www.openssh.com/txt/release-6.2>`_
 * `openssh-lpk <https://code.google.com/p/openssh-lpk/wiki/Main>`_
 

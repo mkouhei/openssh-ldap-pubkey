@@ -169,7 +169,7 @@ func ShowVersion() {
 	// openssh-ldap-pubkey X.X.X
 	//
 	// Copyright (C) 2015 Kouhei Maeda
-	// License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+	// License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
 	// This is free software, and you are welcome to redistribute it.
 	// There is NO WARRANTY, to the extent permitted by law.
 }
