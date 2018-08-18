@@ -10,7 +10,7 @@ Contents:
    openldap
    openssh
    HISTORY
-
+   CONTRIBUTORS
 
 Indices and tables
 ==================
