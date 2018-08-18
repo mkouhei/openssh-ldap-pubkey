@@ -1,6 +1,13 @@
 History
 -------
 
+0.1.3 (2018-08-18)
+~~~~~~~~~~~~~~~~~~
+
+* Supports binddn/bindpw for nslcd.
+
+  * Thanks Nicolas Ledez ( `@nledez <https://github.com/nledez>`_ )
+
 0.1.2 (2017-11-25)
 ~~~~~~~~~~~~~~~~~~
 
