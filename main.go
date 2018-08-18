@@ -28,6 +28,8 @@ type ldapEnv struct {
 	skip   bool
 	debug  bool
 	uid    string
+	binddn string
+	bindpw string
 }
 
 var (
@@ -139,8 +141,8 @@ func logging(err error) {
 	}
 }
 
-func simpleBind(c *ldap.Conn) error {
-	bindRequest := ldap.NewSimpleBindRequest("", "", nil)
+func simpleBind(c *ldap.Conn, l *ldapEnv) error {
+	bindRequest := ldap.NewSimpleBindRequest(l.binddn, l.bindpw, nil)
 	_, err := c.SimpleBind(bindRequest)
 	return err
 }
@@ -179,6 +181,10 @@ func main() {
 	logging(l.argparse([]string{}, ver))
 	c := &ldap.Conn{}
 	if l.debug {
+		var bindpw = ""
+		if l.bindpw != "" {
+			bindpw = "<bindpw can found in nslcd.conf>"
+		}
 		log.Printf("[debug] host  : %s\n", l.host)
 		log.Printf("[debug] port  : %d\n", l.port)
 		log.Printf("[debug] tls	  : %v\n", l.tls)
@@ -186,6 +192,8 @@ func main() {
 		log.Printf("[debug] skip  : %v\n", l.skip)
 		log.Printf("[debug] filter: %s\n", l.filter)
 		log.Printf("[debug] uid	  : %s\n", l.uid)
+		log.Printf("[debug] binddn: %s\n", l.binddn)
+		log.Printf("[debug] bindpw: %s\n", bindpw)
 	}
 	if l.tls {
 		c, err = l.connectTLS()
@@ -196,7 +204,7 @@ func main() {
 	}
 	defer c.Close()
 
-	logging(simpleBind(c))
+	logging(simpleBind(c, l))
 	entries, err = l.search(c)
 	logging(err)
 	logging(printPubkey(entries))

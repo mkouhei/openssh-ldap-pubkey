@@ -33,6 +33,8 @@ func (l *ldapEnv) loadNslcdConf() error {
 		l.tls = false
 		l.skip = false
 		l.debug = false
+		l.binddn = ""
+		l.bindpw = ""
 	}
 	for _, s := range strings.Split(string(b), "\n") {
 		v := strings.Split(s, " ")
@@ -68,6 +70,10 @@ func (l *ldapEnv) loadNslcdConf() error {
 			}
 		case v[0] == "base":
 			l.base = v[1]
+		case v[0] == "binddn":
+			l.binddn = v[1]
+		case v[0] == "bindpw":
+			l.bindpw = v[1]
 		case v[0] == "pam_authz_search":
 			if strings.Contains(v[1], "$username") {
 				l.filter = strings.Replace(v[1], "$username", "%s", 1)
