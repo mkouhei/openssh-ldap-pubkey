@@ -60,7 +60,7 @@ func (l *ldapEnv) loadNslcdConf() error {
 			} else {
 				l.host = u.Host
 				if l.tls {
-					l.port = 686
+					l.port = 636
 					if isAddr(l.host) {
 						l.skip = true
 					}
