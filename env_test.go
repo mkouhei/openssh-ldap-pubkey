@@ -53,7 +53,7 @@ func TestLoadNslcdConfWithTLS(t *testing.T) {
 	os.Setenv("NSLCD_CONF", conf)
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	lc := &ldapEnv{"ldap.example.org", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, false, false, "", "", ""}
+	lc := &ldapEnv{"ldap.example.org", 636, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, false, false, "", "", ""}
 	if *lc != *l {
 		t.Fatal("Failed to load default configuration.")
 	}
@@ -67,7 +67,7 @@ func TestLoadNslcdConfWithTLSAllow(t *testing.T) {
 	os.Setenv("NSLCD_CONF", conf)
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	lc := &ldapEnv{"ldap.example.org", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
+	lc := &ldapEnv{"ldap.example.org", 636, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
 	if *lc != *l {
 		t.Fatal("Failed to load default configuration.")
 	}
@@ -81,7 +81,7 @@ func TestLoadNslcdConfWithTLSNever(t *testing.T) {
 	os.Setenv("NSLCD_CONF", conf)
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	lc := &ldapEnv{"ldap.example.org", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
+	lc := &ldapEnv{"ldap.example.org", 636, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
 	if *lc != *l {
 		t.Fatal("Failed to load default configuration.")
 	}
@@ -95,7 +95,7 @@ func TestLoadNslcdConfWithTLSSkip(t *testing.T) {
 	os.Setenv("NSLCD_CONF", conf)
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	lc := &ldapEnv{"192.0.2.100", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
+	lc := &ldapEnv{"192.0.2.100", 636, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, true, false, "", "", ""}
 	if *lc != *l {
 		t.Fatal("Failed to load default configuration.")
 	}
@@ -109,7 +109,7 @@ func TestLoadNslcdConfWithPort(t *testing.T) {
 	os.Setenv("NSLCD_CONF", conf)
 	l := &ldapEnv{}
 	l.loadNslcdConf()
-	lc := &ldapEnv{"example.org", 686, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, false, false, "", "", ""}
+	lc := &ldapEnv{"example.org", 636, "ou=People,dc=example,dc=org", "(&(objectClass=posixAccount)(uid=%s)(description=limited))", true, false, false, "", "", ""}
 	if *lc != *l {
 		t.Fatal("Failed to load default configuration.")
 	}
