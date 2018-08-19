@@ -8,6 +8,8 @@ History
 
   * Thanks Nicolas Ledez ( `@nledez <https://github.com/nledez>`_ )
 
+* Fixes LDAPS default port.
+
 0.1.2 (2017-11-25)
 ~~~~~~~~~~~~~~~~~~
 
