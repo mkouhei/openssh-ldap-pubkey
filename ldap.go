@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strings"
 
 	"crypto/tls"
 	"crypto/x509"
@@ -25,26 +26,32 @@ type ldapEnv struct {
 }
 
 func (l *ldapEnv) connect() (*ldap.Conn, error) {
-	host := l.host
-	if !isAddr(host) {
-		host = l.getAddr()
+	host, err := l.getAddr()
+
+	if err != nil {
+		logging(err)
+		return nil, err
 	}
 	return ldap.Dial("tcp", fmt.Sprintf("%s:%d", host, l.port))
 }
 
 func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
+	host, err := l.getAddr()
+	if err != nil {
+		logging(err)
+		return nil, err
+	}
+
 	certs := *x509.NewCertPool()
 	tlsConfig := &tls.Config{
 		RootCAs: &certs,
 	}
 
-	if isAddr(l.host) || l.skip {
-		tlsConfig.InsecureSkipVerify = true
+	if !isAddr(host) {
+		tlsConfig.ServerName = host
 	}
-	host := l.host
-	if !isAddr(l.host) {
-		tlsConfig.ServerName = l.host
-		host = l.getAddr()
+	if isAddr(host) || l.skip {
+		tlsConfig.InsecureSkipVerify = true
 	}
 	return ldap.DialTLS("tcp", fmt.Sprintf("%s:%d", host, l.port), tlsConfig)
 }
@@ -82,13 +89,45 @@ func isAddr(host string) bool {
 	return !(net.ParseIP(host).To4() == nil && net.ParseIP(host).To16() == nil)
 }
 
-func (l *ldapEnv) getAddr() string {
-	addrs, err := net.LookupHost(l.host)
-	if err != nil {
-		return l.host
+func (l *ldapEnv) getAddr() (string, error) {
+	var host string
+	var err error
+	errMsg := "invalid host"
+
+	if strings.HasPrefix(l.host, "[") || strings.HasSuffix(l.host, "]") {
+		err = errors.New(errMsg)
+	} else {
+
+		// IPv6
+		if strings.Contains(l.host, ":") {
+			if strings.Contains(l.host, "%") {
+				addr := strings.Split(l.host, "%")
+
+				// link-local
+				if net.ParseIP(addr[0]).IsLinkLocalUnicast() {
+					host = fmt.Sprintf("[%s]", l.host)
+				}
+			} else {
+				// global scope
+				if isAddr(l.host) {
+					host = fmt.Sprintf("[%s]", l.host)
+				}
+			}
+		} else if isAddr(l.host) {
+			// ipv4
+			host = l.host
+		} else {
+			// fqdn
+			var addrs []string
+			addrs, err = net.LookupHost(l.host)
+			if err == nil && len(addrs) > 1 {
+				host = l.host
+			} else {
+				host = ""
+				err = errors.New(errMsg)
+			}
+		}
 	}
-	if net.ParseIP(addrs[0]).To16() != nil {
-		return fmt.Sprintf("[%s]", addrs[0])
-	}
-	return addrs[0]
+
+	return host, err
 }
