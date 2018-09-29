@@ -123,6 +123,12 @@ func TestGetHost(t *testing.T) {
 		t.Fatalf("expected: [%s], but got: %s", requestHost, host)
 	}
 
+	requestHost = "2001:db8::192:0:2:100%enp0s0"
+	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
+	if host, err := l.getHost(); host != "" && err == nil {
+		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
+	}
+
 	requestHost = "fe80::192:0:2:100%enp0s0"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
 	if host, err := l.getHost(); host != "[%s]" && err != nil {
