@@ -104,64 +104,64 @@ func Example_printPubkeyDoesNotExistUser() {
 	//
 }
 
-func TestGetAddr(t *testing.T) {
+func TestGetHost(t *testing.T) {
 	requestHost := "example.net"
 	l := &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user5", "", ""}
-	if host, err := l.getAddr(); host != requestHost && err != nil {
+	if host, err := l.getHost(); host != requestHost && err != nil {
 		t.Fatalf("expected: %s, but got: %s", requestHost, host)
 	}
 
 	requestHost = "localhost"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != requestHost && err != nil {
+	if host, err := l.getHost(); host != requestHost && err != nil {
 		t.Fatalf("expected: %s, but got: %s", requestHost, host)
 	}
 
 	requestHost = "2001:db8::192:0:2:100"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "[%s]" && err != nil {
+	if host, err := l.getHost(); host != "[%s]" && err != nil {
 		t.Fatalf("expected: [%s], but got: %s", requestHost, host)
 	}
 
 	requestHost = "fe80::192:0:2:100%enp0s0"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "[%s]" && err != nil {
+	if host, err := l.getHost(); host != "[%s]" && err != nil {
 		t.Fatalf("expected: [%s], but got: %s", requestHost, host)
 	}
 
 	requestHost = "[2001:db8::192:0:2:100]"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "" && err == nil {
+	if host, err := l.getHost(); host != "" && err == nil {
 		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
 	}
 
 	requestHost = "192.0.2.100"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != requestHost || err != nil {
+	if host, err := l.getHost(); host != requestHost || err != nil {
 		t.Fatalf("expected: %s, but got: %s", requestHost, host)
 	}
 
 	requestHost = "192.168.1"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "" && err == nil {
+	if host, err := l.getHost(); host != "" && err == nil {
 		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
 	}
 
 	requestHost = "invalid:host"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "" && err == nil {
+	if host, err := l.getHost(); host != "" && err == nil {
 		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
 	}
 
 	requestHost = "invalid_host"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "" && err == nil {
+	if host, err := l.getHost(); host != "" && err == nil {
 		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
 	}
 
 	requestHost = "invalid host"
 	l = &ldapEnv{requestHost, 389, "dc=example,dc=org", defaultFilter, false, false, false, "user1", "", ""}
-	if host, err := l.getAddr(); host != "" && err == nil {
+	if host, err := l.getHost(); host != "" && err == nil {
 		t.Fatalf("expected error: 'invalid host / IP address', but got: %s", host)
 	}
 }

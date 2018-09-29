@@ -26,7 +26,7 @@ type ldapEnv struct {
 }
 
 func (l *ldapEnv) connect() (*ldap.Conn, error) {
-	host, err := l.getAddr()
+	host, err := l.getHost()
 
 	if err != nil {
 		logging(err)
@@ -36,7 +36,7 @@ func (l *ldapEnv) connect() (*ldap.Conn, error) {
 }
 
 func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
-	host, err := l.getAddr()
+	host, err := l.getHost()
 	if err != nil {
 		logging(err)
 		return nil, err
@@ -89,7 +89,7 @@ func isAddr(host string) bool {
 	return !(net.ParseIP(host).To4() == nil && net.ParseIP(host).To16() == nil)
 }
 
-func (l *ldapEnv) getAddr() (string, error) {
+func (l *ldapEnv) getHost() (string, error) {
 	var host string
 	var err error
 	errMsg := "invalid host"
