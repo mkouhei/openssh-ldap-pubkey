@@ -62,7 +62,7 @@ func TestBindFail(t *testing.T) {
 	}
 }
 
-func PrintPubkey() {
+func Example_printPubkey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user0", "", ""}
 	c, _ := l.connect()
 	simpleBind(c, l)
@@ -73,7 +73,7 @@ func PrintPubkey() {
 	// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrMQOAP3o58yl96HjEsheDAO/qgQ/mLVJK7DW+VFbJ9dGJpJfB4CBXPoT9bfSn4y6dotqjBA1eDbpDyzrhLkIe1MWZrRjkFbzAtB54ydKSU48URsb+XtGnN6kKKpipolQRvr3CRV7Yu2ELJDq+9Oz1gILK4nc1W/iaORVO/tZRPA0vdQwP0qkUf//neUmXXbSxOSm+ekQvZI9KfJ2tWxe+mVSFt+PcC2P4A/bW9dCNplqZdFTMQxLYFpl5ZOz3fwWcy34Shcb5nSZbjpKZdNrpuUCLwq2FMxorupko8kf4RmvMYO3G6p6OqpoIt6raB8DDJ+v/f6jdgPA31HK0sejX user0@vm01
 }
 
-func PrintPubkeyTLS() {
+func Example_printPubkeyTLS() {
 	l := &ldapEnv{"localhost", 636, "dc=example,dc=org", defaultFilter, true, true, false, "user0", "", ""}
 	c, _ := l.connectTLS()
 	simpleBind(c, l)
@@ -84,7 +84,7 @@ func PrintPubkeyTLS() {
 	// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrMQOAP3o58yl96HjEsheDAO/qgQ/mLVJK7DW+VFbJ9dGJpJfB4CBXPoT9bfSn4y6dotqjBA1eDbpDyzrhLkIe1MWZrRjkFbzAtB54ydKSU48URsb+XtGnN6kKKpipolQRvr3CRV7Yu2ELJDq+9Oz1gILK4nc1W/iaORVO/tZRPA0vdQwP0qkUf//neUmXXbSxOSm+ekQvZI9KfJ2tWxe+mVSFt+PcC2P4A/bW9dCNplqZdFTMQxLYFpl5ZOz3fwWcy34Shcb5nSZbjpKZdNrpuUCLwq2FMxorupko8kf4RmvMYO3G6p6OqpoIt6raB8DDJ+v/f6jdgPA31HK0sejX user0@vm01
 }
 
-func PrintPubkeyDoesNotUseSSHPublicKey() {
+func Example_printPubkeyDoesNotUseSSHPublicKey() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user2", "", ""}
 	c, _ := l.connect()
 	simpleBind(c, l)
@@ -94,7 +94,7 @@ func PrintPubkeyDoesNotUseSSHPublicKey() {
 	//
 }
 
-func PrintPubkeyDoesNotExistUser() {
+func Example_printPubkeyDoesNotExistUser() {
 	l := &ldapEnv{"localhost", 389, "dc=example,dc=org", defaultFilter, false, false, false, "user5", "", ""}
 	c, _ := l.connect()
 	simpleBind(c, l)
