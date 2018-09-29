@@ -1,6 +1,13 @@
 History
 -------
 
+0.2.0 (2018-09-30)
+~~~~~~~~~~~~~~~~~~
+
+* Supports Golang 1.10.
+* Refactorng.
+* Supports IPv6 link-local address.
+
 0.1.3 (2018-08-18)
 ~~~~~~~~~~~~~~~~~~
 
