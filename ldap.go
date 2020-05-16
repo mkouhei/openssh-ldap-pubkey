@@ -42,9 +42,13 @@ func (l *ldapEnv) connectTLS() (*ldap.Conn, error) {
 		return nil, err
 	}
 
-	certs := *x509.NewCertPool()
+	certs, err := x509.SystemCertPool()
+	if err != nil {
+		logging(err)
+		return nil, err
+	}
 	tlsConfig := &tls.Config{
-		RootCAs: &certs,
+		RootCAs: certs,
 	}
 
 	if !isAddr(host) {
