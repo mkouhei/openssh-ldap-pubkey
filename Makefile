@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 #
-# Copyright 2015 Kouhei Maeda <mkouhei@palmtb.net>
+# Copyright 2015-2020 Kouhei Maeda <mkouhei@palmtb.net>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ clean:
 
 test: prebuild
 	go get $(FLAGS) golang.org/x/tools/cmd/goimports
-	go get $(FLAGS) github.com/golang/lint/golint
+	go get $(FLAGS) golang.org/x/lint/golint
 ifneq ($(GOVET),1)
 	go get $(FLAGS) golang.org/x/tools/cmd/vet
 endif
