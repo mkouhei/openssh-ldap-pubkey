@@ -103,7 +103,7 @@ clean:
 
 test: prebuild
 	go get $(FLAGS) golang.org/x/tools/cmd/goimports
-	go get $(FLAGS) github.com/golang/lint/golint
+	go get $(FLAGS) golang.org/x/lint/golint
 ifneq ($(GOVET),1)
 	go get $(FLAGS) golang.org/x/tools/cmd/vet
 endif
