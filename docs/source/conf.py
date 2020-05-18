@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'openssh-ldap-pubkey'
-copyright = u'2015-2018, Kouhei Maeda'
+copyright = u'2015-2020, Kouhei Maeda'
 author = u'Kouhei Maeda'
 
 # The version info for the project you're documenting, acts as replacement for
