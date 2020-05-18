@@ -1,6 +1,14 @@
 History
 -------
 
+0.3.0 (2020-05-18)
+~~~~~~~~~~~~~~~~~~
+
+* Supports Golang 1.11 - 1.14.
+* Use system CA certs.
+* Updates snakeoil certs for testing.
+* Fixes golint path.
+
 0.2.0 (2018-09-30)
 ~~~~~~~~~~~~~~~~~~
 
